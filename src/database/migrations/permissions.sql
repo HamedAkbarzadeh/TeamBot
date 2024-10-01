@@ -1,0 +1,6 @@
+CREATE TABLE permissions(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
