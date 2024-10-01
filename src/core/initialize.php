@@ -3,7 +3,10 @@
 namespace src\core;
 
 if (!defined("TOKEN")) {
-    define("TOKEN", '6690815299:AAEBLpCN_tuDe8ZpLwNvwUvOYlwAoRItqGc');
+    define("TOKEN", '8161574231:AAE4fvpicF9gNW7OE1Zlank4Y5J017UN3-s');
+}
+if (!defined("TEAM_NAME")) {
+    define("TEAM_NAME", 'حامین');
 }
 if (!defined("DOMAIN")) {
     define('DOMAIN', 'https://moblekhoshrang.ir/');
@@ -20,7 +23,7 @@ if (!defined('DB_NAME')) {
     // define('DB_NAME', 'eventBot');
 
     /// host ///
-    define('DB_NAME', 'moblekho_eventBot');
+    define('DB_NAME', 'moblekho_team_bot');
 }
 if (!defined('DB_USERNAME')) {
     /// local ///
