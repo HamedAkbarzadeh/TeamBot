@@ -1,7 +1,11 @@
 <?php
 
-if ($Api->getText() == "/start") {
-    $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . TEAM_NAME . " ساخته شده است .";
+if ($Api->getText() == "/start" || $Api->getText() == "home") {
+    if ($Api->getText() == "home") {
+        $text = "منو اصلی";
+    } else {
+        $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . TEAM_NAME . " ساخته شده است .";
+    }
     $reply = [
         'inline_keyboard' => [
             [
@@ -32,5 +36,14 @@ if ($Api->getText() == "/start") {
             ]
         ]
     ];
-    $Api->sendMessage($text, $reply);
+
+    if ($Api->getText() == "home")
+        $Api->editMessageText($text, $reply);
+    else
+        $Api->sendMessage($text, $reply);
 }
+
+
+//AboutUs
+include_once "AboutUs/about-manage.php";
+include_once "Support/support.php";

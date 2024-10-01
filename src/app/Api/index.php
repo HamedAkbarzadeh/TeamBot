@@ -14,13 +14,13 @@ $Api = new TelegramAPI;
 //DB Instance
 $sql = new DB();
 
-$userStep = $sql->table('users')->select('step')->where('user_id', $Api->getUser_id())->first()['step'];
-$airdrops = $sql->table('airdrops')->select(['id', 'persian_name', 'english_name'])->get();
+// $userStep = $sql->table('users')->select('step')->where('user_id', $Api->getUser_id())->first()['step'];
+// $airdrops = $sql->table('airdrops')->select(['id', 'persian_name', 'english_name'])->get();
 
-include_once 'ForcedJoin/forced-join.php';
+// include_once 'ForcedJoin/forced-join.php';
 
 //User Panel
 include_once 'User/user-panel.php';
 
 //Admin Panel
-include_once 'Admin/admin-panel.php';
+// include_once 'Admin/admin-panel.php';
