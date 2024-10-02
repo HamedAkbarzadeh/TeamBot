@@ -24,7 +24,7 @@ class DB
 
         if (in_array('table', $this->allowMethods)) {
             $this->tableName = $table;
-            $this->allowMethods = ['select', 'insert', 'where', 'orWhere', 'find', 'get', 'first', 'find'];
+            $this->allowMethods = ['select', 'insert', 'where', 'orWhere', 'find', 'last', 'get', 'first', 'find'];
             return $this;
         }
         return false;
@@ -42,7 +42,7 @@ class DB
                 $columns = implode(', ', $columns);
             }
             $this->sql = "SELECT " . $columns . " FROM `" . $this->tableName . "` ";
-            $this->allowMethods = ['join', 'where', 'orWhere', 'orderBy', 'get', 'first'];
+            $this->allowMethods = ['leftJoin', 'join', 'where', 'orWhere', 'orderBy', 'last', 'get', 'first'];
 
             return $this;
         }
@@ -52,7 +52,16 @@ class DB
     {
         if (in_array('join', $this->allowMethods)) {
             $this->sql .= " JOIN " . $table . " ";
-            $this->allowMethods = ['join', 'on', 'where', 'orWhere', 'orderBy', 'get', 'first'];
+            $this->allowMethods = ['leftJoin', 'join', 'on', 'where', 'orWhere', 'orderBy', 'last', 'get', 'first'];
+            return $this;
+        }
+        return false;
+    }
+    public function leftJoin($table)
+    {
+        if (in_array('join', $this->allowMethods)) {
+            $this->sql .= "LEFT JOIN " . $table . " ";
+            $this->allowMethods = ['leftJoin', 'join', 'on', 'where', 'orWhere', 'orderBy', 'last', 'get', 'first'];
             return $this;
         }
         return false;
@@ -61,12 +70,11 @@ class DB
     {
         if (in_array('on', $this->allowMethods)) {
             $this->sql .= " ON " . $table1 . "." . $column1 . " = " . $table2 . "." . $column2 . " ";
-            $this->allowMethods = ['join', 'on', 'where', 'orWhere', 'orderBy', 'get', 'first'];
+            $this->allowMethods = ['leftJoin', 'join', 'on', 'where', 'orWhere', 'orderBy', 'last', 'get', 'first'];
             return $this;
         }
         return false;
     }
-
 
     //create
     public function insert($fields, $values)
@@ -114,10 +122,7 @@ class DB
             $this->values = array_merge($new_values, $this->values);
             $result = $this->runSql();
             if ($result) {
-                // return DBConnection::getInstance()->lastInsertId();
-
-                $lastInsertId = DBConnection::getInstance()->lastInsertId();
-                return $lastInsertId;
+                return true;
             }
         }
         return false;
@@ -129,13 +134,12 @@ class DB
         if (in_array('delete', $this->allowMethods) && $this->wheres != "") {
             $this->sql = "DELETE FROM `$this->tableName`";
             $result = $this->runSql();
-            if ($result) {
+            if ($result->rowCount() > 0) {
                 return true;
             }
         }
         return false;
     }
-
 
     public function find($id)
     {
@@ -148,26 +152,35 @@ class DB
         }
         return false;
     }
-    public function where($column, $condition, $value = null)
+    public function where($column, $condition, $value = null, $static = false)
     {
         if (in_array('where', $this->allowMethods)) {
 
             $startWhere = $this->wheres != "" ? " AND " : "";
 
             if ($value == null) {
-                $this->wheres .= $startWhere . $column . " = ?";
-                $this->values[] = $condition;
+                if ($condition == null || $condition == "") {
+                    $this->wheres .= $startWhere . $column . " = is null";
+                } elseif ($condition == "not null") {
+                    $this->wheres .= $startWhere . $column . " = is not null";
+                } else {
+                    $this->wheres .= $startWhere . $column . " = ?";
+                    $this->values[] = $condition;
+                }
             } else {
-                $this->wheres .= $startWhere . $column . " $condition ? ";
-                $this->values[] = $value;
+                if ($static) {
+                    $this->wheres .= $startWhere . $column . " $condition " . $value;
+                } else {
+                    $this->wheres .= $startWhere . $column . " $condition ? ";
+                    $this->values[] = $value;
+                }
             }
-            $this->allowMethods = ['where', 'orWhere', 'orderBy', 'get', 'first', 'update', 'delete'];
+            $this->allowMethods = ['where', 'orWhere', 'orderBy', 'last', 'get', 'first', 'update', 'delete'];
             return $this;
         }
         // $this->setLog("Order By Eror", "../Log/DB.log", 'EMERGENCY');
         return false;
     }
-
     public function orWhere($columsn, $condition, $values = null)
     {
         if (in_array('orWhere', $this->allowMethods)) {
@@ -179,7 +192,7 @@ class DB
                 $this->wheres .= $startOrWhere . $columsn . " $condition ?";
             }
             $this->values[] = $values;
-            $this->allowMethods = ['where', 'orWhere', 'orderBy', 'get', 'first', 'update', 'delete'];
+            $this->allowMethods = ['where', 'orWhere', 'orderBy', 'last', 'get', 'first', 'update', 'delete'];
             return $this;
         }
         return false;
@@ -188,7 +201,7 @@ class DB
     {
         if (in_array('orderBy', $this->allowMethods)) {
             $this->orderByProperty = ' ORDER BY ' . $column . " " . $asc;
-            $this->allowMethods = ['get', 'first'];
+            $this->allowMethods = ['last', 'get', 'first'];
 
             return $this;
         }
@@ -206,7 +219,20 @@ class DB
         }
         return false;
     }
-
+    public function last()
+    {
+        if (in_array('last', $this->allowMethods)) {
+            if ($this->callSelect == false) {
+                $this->select();
+            }
+            if ($this->orderByProperty == "") {
+                $this->orderByProperty = " ORDER BY id DESC LIMIT 1 ";
+            }
+            $stmt = $this->runSql();
+            return $stmt->fetch();
+        }
+        return false;
+    }
     public function get()
     {
         if (in_array('get', $this->allowMethods)) {

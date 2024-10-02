@@ -1,8 +1,39 @@
 <?php
 
 if ($Api->getText() == "/start" || $Api->getText() == "home") {
+    $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['home']);
+
+    if (!$user) {
+
+        $sql->table('users')->insert(
+            [
+                'user_id',
+                'first_name',
+                'last_name',
+                'username',
+                'is_bot',
+                'is_permium',
+                'step',
+                'status_bot_used',
+            ],
+            [
+                $Api->getUser_id(),
+                $Api->getFirst_name(),
+                $Api->getLast_name(),
+                $Api->getUsername(),
+                $Api->getIs_bot(),
+                $Api->getIs_permium(),
+                'home',
+                0,
+            ]
+        );
+
+    }
     if ($Api->getText() == "home") {
-        $text = "منو اصلی";
+        $text = "منو اصلی
+        ";
+        $text .= "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . TEAM_NAME . " ساخته شده است .";
+
     } else {
         $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . TEAM_NAME . " ساخته شده است .";
     }
@@ -15,34 +46,35 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
                 ],
                 [
                     'text' => 'پشتیبانی',
-                    'callback_data' => 'support'
-                ]
+                    'callback_data' => 'support',
+                ],
             ],
             [
                 [
                     'text' => 'سایت ما',
-                    'callback_data' => 'web'
+                    'callback_data' => 'web',
                 ],
                 [
                     'text' => 'نمونه کار ها',
-                    'callback_data' => 'sampleProject'
-                ]
+                    'callback_data' => 'sampleProject',
+                ],
             ],
             [
                 [
                     'text' => 'پنل ادمین',
-                    'callback_data' => 'adminPanel'
+                    'callback_data' => 'adminPanel',
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
 
-    if ($Api->getText() == "home")
+    if ($Api->getText() == "home") {
         $Api->editMessageText($text, $reply);
-    else
+    } else {
         $Api->sendMessage($text, $reply);
-}
+    }
 
+}
 
 //AboutUs
 include_once "AboutUs/about-manage.php";
