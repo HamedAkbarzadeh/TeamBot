@@ -46,4 +46,9 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
 
 //AboutUs
 include_once "AboutUs/about-manage.php";
-include_once "Support/support.php";
+
+//support
+include_once "Support/support-manage.php";
+
+//sample project
+include_once "SampleProject/sample-project-manage.php";
