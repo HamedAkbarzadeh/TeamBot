@@ -23,16 +23,58 @@ if ($Api->getText() == 'insert-sample-project') {
 }
 if ($userStep == 'typingTitleForSampleProject') {
     $text = $Api->getText();
-    $resumeID = $sql->table('resumes')->insert(['name'], [$text]);
+    $resumeID = $sql->table('resumes')->insert(['name', 'status'], [$text, 0]);
     $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['setTitleForSampleProject_' . $resumeID]);
 
-    $text = 'لطفا لینک مربوط به نمونه پروژه را وارد نمایید';
-    $Api->sendMessage($text);
+    $text = 'لطفا توضیحات مربوط به نمونه پروژه را وارد نمایید . یا از طریق دکمه های زیر به منو اصلی برگردید .';
+    $reply = [
+        'inline_keyboard' => [
+            [
+                [
+                    'text' => 'بازگشت',
+                    'callback_data' => 'adminPanel',
+                ],
+            ],
+            [
+                [
+                    'text' => 'بازگشت به صفحه اصلی',
+                    'callback_data' => 'home',
+                ],
+            ],
+        ],
+    ];
+    $Api->sendMessage($text, $reply);
 }
 if (strpos($userStep, 'setTitleForSampleProject_') === 0) {
+    $description = $Api->getText();
+    $resumeID = explode('_', $userStep)[1];
+    $res = $sql->table('resumes')->select()->where('id', $resumeID)->update(['description'], [$description]);
+    $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['setDescriptionForSampleProject_' . $resumeID]);
+    $text = 'لطفا لینک مربوط به نمونه پروژه را وارد نمایید . یا از طریق دکمه های زیر به منو اصلی برگردید .';
+
+    $reply = [
+        'inline_keyboard' => [
+            [
+                [
+                    'text' => 'بازگشت',
+                    'callback_data' => 'adminPanel',
+                ],
+            ],
+            [
+                [
+                    'text' => 'بازگشت به صفحه اصلی',
+                    'callback_data' => 'home',
+                ],
+            ],
+        ],
+    ];
+    $Api->sendMessage($text, $reply);
+}
+
+if (strpos($userStep, 'setDescriptionForSampleProject_') === 0) {
     $link = $Api->getText();
     $resumeID = explode('_', $userStep)[1];
-    $res = $sql->table('resumes')->select()->where('id', $resumeID)->update(['link'], [$link]);
+    $res = $sql->table('resumes')->select()->where('id', $resumeID)->update(['link', 'status'], [$link, 1]);
 
     if ($res) {
         $text = 'عملیات با موفقیت انجام شد.';

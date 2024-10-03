@@ -50,10 +50,10 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
                 ],
             ],
             [
-                [
-                    'text' => 'سایت ما',
-                    'callback_data' => 'web',
-                ],
+                // [
+                //     'text' => 'سایت ما',
+                //     'callback_data' => 'web',
+                // ],
                 [
                     'text' => 'نمونه کار ها',
                     'callback_data' => 'sampleProject',

@@ -9,21 +9,22 @@ if ($Api->getText() == 'sample-project-manage') {
                     'text' => 'افزودن',
                     'callback_data' => 'insert-sample-project',
                 ],
+
             ],
             [
                 [
                     'text' => 'حذف',
                     'callback_data' => 'delete-sample-project',
                 ],
-                [
-                    'text' => 'ویرایش',
-                    'callback_data' => 'edit-sample-project',
-                ],
             ],
             [
                 [
                     'text' => 'بازگشت به صفحه اصلی',
                     'callback_data' => 'home',
+                ],
+                [
+                    'text' => 'ادمین پنل',
+                    'callback_data' => 'adminPanel',
                 ],
             ],
         ],
@@ -32,4 +33,4 @@ if ($Api->getText() == 'sample-project-manage') {
 }
 include_once "insert.php";
 include_once "delete.php";
-include_once "edit.php";
+// include_once "edit.php";
