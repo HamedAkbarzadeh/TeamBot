@@ -1,7 +1,6 @@
 <?php
 
 if ($Api->getText() == "/start" || $Api->getText() == "home") {
-    $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['home']);
 
     if (!$user) {
 
@@ -28,6 +27,8 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
             ]
         );
     }
+    $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['home']);
+
     if ($Api->getText() == "home") {
         $text = "منو اصلی
         ";
