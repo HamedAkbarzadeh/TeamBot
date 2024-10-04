@@ -3,10 +3,10 @@
 namespace src\core;
 
 if (!defined("TOKEN")) {
-    define("TOKEN", '8161574231:AAE4fvpicF9gNW7OE1Zlank4Y5J017UN3-s');
+    define("TOKEN", '7573674489:AAFWO37NGmiNSlQE_dkdhNDMfVNmgJ_vVfw');
 }
-if (!defined("TEAM_NAME")) {
-    define("TEAM_NAME", 'حامین');
+if (!defined("APP_NAME")) {
+    define("APP_NAME", 'فارسه - pharse');
 }
 if (!defined("DOMAIN")) {
     define('DOMAIN', 'https://moblekhoshrang.ir/');
@@ -15,7 +15,7 @@ if (!defined('API')) {
     define('API', "https://api.telegram.org/bot" . TOKEN . "/");
 }
 if (!defined('BOT_USERNAME')) {
-    define('BOT_USERNAME', 'https://t.me/hmd_event_bot');
+    define('BOT_USERNAME', 'https://t.me/pharse_team_bot');
 }
 //DB Config
 if (!defined('DB_NAME')) {
