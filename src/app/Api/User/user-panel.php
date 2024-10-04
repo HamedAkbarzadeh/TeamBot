@@ -36,35 +36,39 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     } else {
         $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است .";
     }
-    $reply = [
-        'inline_keyboard' => [
+
+    $data = [
+        [
             [
-                [
-                    'text' => 'درباره ما',
-                    'callback_data' => 'aboutUs',
-                ],
-                [
-                    'text' => 'پشتیبانی',
-                    'callback_data' => 'support',
-                ],
+                'text' => 'درباره ما',
+                'callback_data' => 'aboutUs',
             ],
             [
-                // [
-                //     'text' => 'سایت ما',
-                //     'callback_data' => 'web',
-                // ],
-                [
-                    'text' => 'نمونه کار ها',
-                    'callback_data' => 'sampleProject',
-                ],
-            ],
-            [
-                [
-                    'text' => 'پنل ادمین',
-                    'callback_data' => 'adminPanel',
-                ],
+                'text' => 'پشتیبانی',
+                'callback_data' => 'support',
             ],
         ],
+        [
+            // [
+            //     'text' => 'سایت ما',
+            //     'callback_data' => 'web',
+            // ],
+            [
+                'text' => 'نمونه کار ها',
+                'callback_data' => 'sampleProject',
+            ],
+        ],
+    ];
+    if ($user['is_admin'] == '1') {
+        $data[] =  [
+            [
+                'text' => 'پنل ادمین',
+                'callback_data' => 'adminPanel',
+            ],
+        ];
+    }
+    $reply = [
+        'inline_keyboard' => $datas
     ];
 
     if ($Api->getText() == "home") {
