@@ -37,7 +37,7 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
         $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است .";
     }
 
-    $data = [
+    $buttons = [
         [
             [
                 'text' => 'درباره ما',
@@ -59,8 +59,10 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
             ],
         ],
     ];
-    if ($user['is_admin'] == '1') {
-        $data[] =  [
+    setManualLog("USER : " . json_encode($user));
+    if ($user['is_admin']) {
+        setManualLog("is Here");
+        $buttons[] =  [
             [
                 'text' => 'پنل ادمین',
                 'callback_data' => 'adminPanel',
@@ -68,7 +70,7 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
         ];
     }
     $reply = [
-        'inline_keyboard' => $datas
+        'inline_keyboard' => $buttons
     ];
 
     if ($Api->getText() == "home") {

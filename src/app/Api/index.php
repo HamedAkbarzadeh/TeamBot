@@ -14,7 +14,7 @@ $Api = new TelegramAPI;
 //DB Instance
 $sql = new DB();
 
-$user = $sql->table('users')->select('step')->where('user_id', $Api->getUser_id())->first();
+$user = $sql->table('users')->select()->where('user_id', $Api->getUser_id())->first();
 if ($user) {
     $userStep = $user['step'];
 }
@@ -24,7 +24,7 @@ if ($user) {
 //User Panel
 include_once 'User/user-panel.php';
 
-if ($user['is_admin'] == '1') {
+if ($user['is_admin']) {
     //Admin Panel
     include_once 'Admin/admin-panel.php';
 }
