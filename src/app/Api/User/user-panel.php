@@ -35,10 +35,10 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     if ($Api->getText() == "home") {
         $title = "<b>▫️ منو اصلی</b>\n\n";
         $title .= "<b>▫️ معرفی تیم برنامه‌نویسی " . APP_NAME . " ▫️</b>";
-        $text = "$title\n\n$description\n\n$description\n\n$description2\n\n$footer";
+        $text = "$title\n\n$description\n\n$description2\n\n$footer";
     } else {
         $title = "<b>▫️ معرفی تیم برنامه‌نویسی " . APP_NAME . " ▫️</b>";
-        $text = "$title\n\n$description\n\n$description\n\n$description2\n\n$footer";
+        $text = "$title\n\n$description\n\n$description2\n\n$footer";
     }
 
     $buttons = [
@@ -85,7 +85,7 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     if ($Api->getText() == "home") {
         $Api->editMessageText($text, $reply, "HTML");
     } else {
-        $Api->sendMessage($text, $reply, "HTML");
+        $Api->sendMessage($text, $reply, null, "HTML");
     }
 }
 
