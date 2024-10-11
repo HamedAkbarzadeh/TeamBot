@@ -3,10 +3,10 @@
 if ($Api->getText() == "activeBot") {
     $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['chooseIDForActiveBot']);
 
-    $title = "<b>بات های فعال تیم فارسه در سطح تلگرام</b>";
+    $title = "<b>▫️ به جمع کاربران ربات‌های فعال تیم فارسه در تلگرام بپیوندید !</b>";
     $description = "در این بخش، برخی از پروژه‌ها و دستاوردهای تیم ما را مشاهده می‌کنید. هر پروژه حاصل تلاش و همکاری تیمی ما در جهت ارائه راهکارهای خلاقانه و نوآورانه است. ما به کیفیت، بهینه‌سازی و پیاده‌سازی‌های دقیق و کاربردی توجه ویژه‌ای داریم .";
 
-    $text = "$title\n$description";
+    $text = "$title\n\n$description\n";
     $resumesFetch = $sql->table('resumes')->select(['name', 'id'])->where('status', 1)->where('type', 1)->get();
     $datas = [];
     foreach ($resumesFetch as $resume) {
@@ -32,7 +32,7 @@ if (strpos($Api->getText(), 'sendIDForActiveBot_') === 0) {
 
     $resumeID = explode("_", $Api->getText())[1];
     $resume = $sql->table('resumes')->select()->where('id', $resumeID)->first();
-    $text = $resume['name'] . " : " . PHP_EOL . $resume['description'] . PHP_EOL . PHP_EOL . "برای دیدن ربات روی دکمه زیر کلیک کنید .";
+    $text = " ▫️ " . $resume['name'] . " ▫️ " . "\n\n" . $resume['description'] . "\n\n" . "برای دیدن ربات روی دکمه زیر کلیک کنید .";
     $reply = [
         'inline_keyboard' => [
             [
@@ -53,5 +53,5 @@ if (strpos($Api->getText(), 'sendIDForActiveBot_') === 0) {
             ],
         ],
     ];
-    $Api->editMessageText($text, $reply);
+    $Api->editMessageText($text, $reply, "HTML");
 }
