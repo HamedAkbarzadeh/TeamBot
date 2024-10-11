@@ -3,9 +3,10 @@
 if ($Api->getText() == "activeBot") {
     $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['chooseIDForActiveBot']);
 
-    $text = "<b>بات های فعال تیم فارسه در سطح تلگرام</b>
-در این بخش، برخی از پروژه‌ها و دستاوردهای تیم ما را مشاهده می‌کنید. هر پروژه حاصل تلاش و همکاری تیمی ما در جهت ارائه راهکارهای خلاقانه و نوآورانه است. ما به کیفیت، بهینه‌سازی و پیاده‌سازی‌های دقیق و کاربردی توجه ویژه‌ای داریم .
-";
+    $title = "<b>بات های فعال تیم فارسه در سطح تلگرام</b>";
+    $description = "در این بخش، برخی از پروژه‌ها و دستاوردهای تیم ما را مشاهده می‌کنید. هر پروژه حاصل تلاش و همکاری تیمی ما در جهت ارائه راهکارهای خلاقانه و نوآورانه است. ما به کیفیت، بهینه‌سازی و پیاده‌سازی‌های دقیق و کاربردی توجه ویژه‌ای داریم .";
+
+    $text = "$title\n$description";
     $resumesFetch = $sql->table('resumes')->select(['name', 'id'])->where('status', 1)->where('type', 1)->get();
     $datas = [];
     foreach ($resumesFetch as $resume) {
@@ -24,7 +25,7 @@ if ($Api->getText() == "activeBot") {
     $reply = [
         'inline_keyboard' => $datas,
     ];
-    $Api->editMessageText($text, $reply);
+    $Api->editMessageText($text, $reply, "HTML");
 }
 if (strpos($Api->getText(), 'sendIDForActiveBot_') === 0) {
     $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['ShowActiveBot']);
