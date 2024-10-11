@@ -30,11 +30,10 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ['home']);
 
     if ($Api->getText() == "home") {
-        $text = "منو اصلی
-        ";
-        $text .= "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است .";
+        $text = "<b>▫️ منو اصلی</b>\n\n";
+        $text .= "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است . \n";
     } else {
-        $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است .";
+        $text = "سلام به ربات ما خوش آمدید . این ربات جهت نمایش و توضیحات درباره تیممون " . APP_NAME . " ساخته شده است . \n";
     }
 
     $buttons = [
@@ -79,9 +78,9 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     ];
 
     if ($Api->getText() == "home") {
-        $Api->editMessageText($text, $reply);
+        $Api->editMessageText($text, $reply, "HTML");
     } else {
-        $Api->sendMessage($text, $reply);
+        $Api->sendMessage($text, $reply, "HTML");
     }
 }
 
