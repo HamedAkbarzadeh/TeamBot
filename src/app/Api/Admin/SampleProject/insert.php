@@ -74,16 +74,14 @@ if (strpos($userStep, 'setTitleForSampleProject_') === 0) {
 if (strpos($userStep, 'setDescriptionForSampleProject_') === 0) {
     $link = $Api->getText();
     $resumeID = explode('_', $userStep)[1];
-    $res = $sql->table('resumes')->select()->where('id', $resumeID)->update(['link', 'status'], [$link, 1]);
+    $res = $sql->table('resumes')->select()->where('id', $resumeID)->update(['link', 'status', 'uploaded_by_user_id'], [$link, 1, $user['id']]);
 
     if ($res) {
         $text = 'عملیات با موفقیت انجام شد.';
         $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ["successfullyToAddedSampleProject"]);
-
     } else {
         $text = 'مشکلی در ثبت پیش امده لطفا دوباره تلاش نمایید';
         $sql->table('users')->select()->where('user_id', $Api->getUser_id())->update(['step'], ["FailedToAddedSampleProject"]);
-
     }
     $reply = [
         'inline_keyboard' => [

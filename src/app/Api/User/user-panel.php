@@ -40,6 +40,12 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
     $buttons = [
         [
             [
+                'text' => 'ربات های فعال',
+                'callback_data' => 'activeBot'
+            ]
+        ],
+        [
+            [
                 'text' => 'درباره ما',
                 'callback_data' => 'aboutUs',
             ],
@@ -59,7 +65,6 @@ if ($Api->getText() == "/start" || $Api->getText() == "home") {
             ],
         ],
     ];
-    setManualLog("USER : " . json_encode($user));
     if ($user['is_admin']) {
         setManualLog("is Here");
         $buttons[] =  [
@@ -88,3 +93,6 @@ include_once "Support/support-manage.php";
 
 //sample project
 include_once "SampleProject/sample-project-manage.php";
+
+//active bot
+include_once "ActiveBot/active-bot.php";
